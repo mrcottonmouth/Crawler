@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>Crawler Control System</title>
+  
+  
+  
+  <link rel="stylesheet" href="https://d10ajoocuyu32n.cloudfront.net/mobile/1.3.1/jquery.mobile-1.3.1.min.css">
+  
+  <!-- Extra Codiqa features -->
+  <link rel="stylesheet" href="codiqa.ext.css">
+  
+  <!-- jQuery and jQuery Mobile -->
+  <script src="https://d10ajoocuyu32n.cloudfront.net/jquery-1.9.1.min.js"></script>
+  <script src="https://d10ajoocuyu32n.cloudfront.net/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+
+  <!-- Extra Codiqa features -->
+  <script src="https://d10ajoocuyu32n.cloudfront.net/codiqa.ext.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Code for socket.io and device orientation handling -->
+  <script>
+    var socket = io.connect();
+    // Send data through socket
+    function throttle(value){
+      socket.emit('throttle', value);
+    }
+    function LeftRight(value){
+      socket.emit('LeftRight', value);
+    }
+    function Forward(){
+        socket.emit('Forward', 'on');
+    }
+    function Stop(){
+        socket.emit('Stop', 'on');
+    }
+    function Reverse(){
+        socket.emit('Reverse', 'on');
+    }
+    function SuperSpeed(sel){
+        if (sel.value == "on") {
+            socket.emit('SuperSpeed', sel.value);
+        } else if (sel.value == "off") {
+            socket.emit('SuperSpeed', sel.value);
+        }
+    }
+    function Claw(sel){
+        if (sel.value == "on") {
+            socket.emit('Claw', sel.value);
+        } else if (sel.value == "off") {
+            socket.emit('Claw', sel.value);
+        }
+    }
+    function Light(sel){
+        if (sel.value == "on") {
+            socket.emit('Light', sel.value);
+        } else if (sel.value == "off") {
+            socket.emit('Light', sel.value);
+        }
+    }
+    function RobotPower(sel){
+        if (sel.value == "on") {
+            socket.emit('RobotPower', sel.value);
+        } else if (sel.value == "off") {
+            socket.emit('RobotPower', sel.value);
+        }
+    }
+    function CameraPower(sel){
+        if (sel.value == "on") {
+            socket.emit('CameraPower', sel.value);
+        } else if (sel.value == "off") {
+            socket.emit('CameraPower', sel.value);
+        }
+    }
+ 
+  </script>
+
+</head>
+<body>
+<!-- Home -->
+<div data-role="page" id="page1">
+    <div data-theme="a" data-role="header">
+        <h3>
+            Crawler
+        </h3>
+    </div>
+    <div data-role="content">
+        <div data-role="fieldcontain">
+            <label for="Throttle">
+                Throttle
+            </label>
+            <input id="Throttle" type="range" name="slider" value="0" min="0" max="255" 
+            data-highlight="true" onChange="throttle(value);">
+        </div>
+        <div data-role="fieldcontain">
+            <label for="LeftRight">
+                Left / Right
+            </label>
+            <input id="LeftRight" type="range" name="slider" value="50" min="0" max="100"
+            data-highlight="false" onChange="LeftRight(value);">
+        </div>
+        <div data-role="fieldcontain">
+                <a id="x" data-role="button" data-transition="pop" data-theme="b" 
+                onclick="Forward(); return false"
+                data-icon="arrow-u" data-iconpos="top">
+                    Forward
+                </a>
+                <a id="x" data-role="button" data-transition="pop" data-theme="b" 
+                onclick="Stop(); return false"
+                data-icon="delete" data-iconpos="top">
+                    Stop
+                </a>
+                <a id="x" data-role="button" data-transition="pop" data-theme="b" 
+                onclick="Reverse(); return false"
+                data-icon="arrow-d" data-iconpos="bottom">
+                    Reverse
+                </a>        
+        </div>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+                <div data-role="fieldcontain">
+                    <label for="toggleswitch7">
+                        Reverse
+                    </label>
+                    <select name="toggleswitch7" id="toggleswitch7" data-theme="" disabled="disabled" 
+                    data-role="slider" onchange="Reverse(this);">
+                        <option value="off">
+                            Fwd
+                        </option>
+                        <option value="on">
+                            Rev
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="ui-block-b">
+                <div data-role="fieldcontain">
+                    <label for="toggleswitch8">
+                        Super Speed
+                    </label>
+                    <select name="toggleswitch8" id="toggleswitch8" data-theme="" disabled="disabled" 
+                    data-role="slider" onchange="SuperSpeed(this);">
+                        <option value="off">
+                            Off
+                        </option>
+                        <option value="on">
+                            On
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="ui-block-a">
+                <div data-role="fieldcontain">
+                    <label for="toggleswitch9">
+                        Claw
+                    </label>
+                    <select name="toggleswitch9" id="toggleswitch9" data-theme="" disabled="disabled" 
+                    data-role="slider" onchange="Claw(this);">
+                        <option value="off">
+                            Closed
+                        </option>
+                        <option value="on">
+                            Opened
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="ui-block-b">
+                <div data-role="fieldcontain">
+                    <label for="toggleswitch10">
+                        Light
+                    </label>
+                    <select name="toggleswitch10" id="toggleswitch10" data-theme="" 
+                    data-role="slider" onchange="Light(this);">
+                        <option value="off">
+                            Off
+                        </option>
+                        <option value="on">
+                            On
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="ui-block-a">
+                <div data-role="fieldcontain">
+                    <label for="toggleswitch11">
+                        Robot Power
+                    </label>
+                    <select name="toggleswitch11" id="toggleswitch11" data-theme="b" disabled="disabled" 
+                    data-role="slider" onchange="RobotPower(this);">
+                        <option value="off">
+                            Off
+                        </option>
+                        <option value="on">
+                            On
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="ui-block-b">
+                <div data-role="fieldcontain">
+                    <label for="toggleswitch12">
+                        Camera Power
+                    </label>
+                    <select name="toggleswitch12" id="toggleswitch12" data-theme="b" disabled="disabled" 
+                    data-role="slider" onchange="CameraPower(this);">
+                        <option value="off">
+                            Off
+                        </option>
+                        <option value="on">
+                            On
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
