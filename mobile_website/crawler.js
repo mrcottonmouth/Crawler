@@ -6,8 +6,21 @@ var app = require('http').createServer(handler),
     io = require('socket.io').listen(app),
     fs = require('fs'),
     i2c = require('i2c'),
+    gpio = require('gpio'),
     five = require('johnny-five');
-    
+
+var gpio22, gpio23;
+gpio22 = gpio.export(22, {
+   ready: function() {
+      gpio22.set();
+   }
+});
+gpio23 = gpio.export(23, {
+   ready: function() {
+      gpio23.set();
+   }
+});
+
 app.listen(7000);
 console.log('Crawler Server running on: http://' + getIPAddress() + ':7000');
 
@@ -36,8 +49,8 @@ var Reverse = false;
 var SuperSpeed = false;
 var Claw = false;
 var Light = false;
-var RobotPower = false;
-var CameraPower = false;
+var MotorPower = false;
+var ServoPower = false;
 
 
 board = new five.Board({ port: "/dev/ttyAMA0" });
@@ -78,6 +91,8 @@ board.on("ready", function() {
        console.log("Fwd " + data);
        // switch mode
        if (data == 'on') {
+          board.pinMode(EA, five.Pin.PWM);
+          board.pinMode(EB, five.Pin.PWM);
           board.digitalWrite(IN1, 1 ); //Establishes backward direction of Channel A
           board.digitalWrite(IN2, 0 );  
           board.analogWrite(EA, throttle);   //Spins the motor on Channel A at half speed
@@ -103,6 +118,8 @@ board.on("ready", function() {
        console.log("Rev " + data);
        // switch mode
        if (data == 'on') {
+          board.pinMode(EA, five.Pin.PWM);
+          board.pinMode(EB, five.Pin.PWM);
           board.digitalWrite(IN1, 0 ); //Establishes backward direction of Channel A
           board.digitalWrite(IN2, 1 );  
           board.analogWrite(EA, throttle);   //Spins the motor on Channel A at half speed
@@ -150,27 +167,31 @@ board.on("ready", function() {
           //serialPort.write("G " + '0' + '\n');
        }
      });
-     // Robot Power mode
-       socket.on('RobotPower', function (data) {
+     // Motor Power mode
+       socket.on('MotorPower', function (data) {
        console.log("P " + data);
        // switch mode
        if (data == 'on') {
-          RobotPower = true;
+          MotorPower = true;
+          gpio22.reset();
           //serialPort.write("P " + '1' + '\n');
        } else if (data == 'off') {
-          RobotPower = false;
+          MotorPower = false;
+          gpio22.set();
           //serialPort.write("P " + '0' + '\n');
        }
      });
-     // Camera Power mode
-       socket.on('CameraPower', function (data) {
+     // Servo Power mode
+       socket.on('ServoPower', function (data) {
        console.log("I " + data);
        // switch mode
        if (data == 'on') {
-          CameraPower = true;
+          ServoPower = true;
+          gpio23.reset();
           //serialPort.write("I " + '1' + '\n');
        } else if (data == 'off') {
-          CameraPower = false;
+          ServoPower = false;
+          gpio23.set();
           //serialPort.write("I " + '0' + '\n');
        }
      });

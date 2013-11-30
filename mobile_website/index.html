@@ -62,18 +62,18 @@
             socket.emit('Light', sel.value);
         }
     }
-    function RobotPower(sel){
+    function MotorPower(sel){
         if (sel.value == "on") {
-            socket.emit('RobotPower', sel.value);
+            socket.emit('MotorPower', sel.value);
         } else if (sel.value == "off") {
-            socket.emit('RobotPower', sel.value);
+            socket.emit('MotorPower', sel.value);
         }
     }
-    function CameraPower(sel){
+    function ServoPower(sel){
         if (sel.value == "on") {
-            socket.emit('CameraPower', sel.value);
+            socket.emit('ServoPower', sel.value);
         } else if (sel.value == "off") {
-            socket.emit('CameraPower', sel.value);
+            socket.emit('ServoPower', sel.value);
         }
     }
  
@@ -188,10 +188,10 @@
             <div class="ui-block-a">
                 <div data-role="fieldcontain">
                     <label for="toggleswitch11">
-                        Robot Power
+                        Motor Power
                     </label>
-                    <select name="toggleswitch11" id="toggleswitch11" data-theme="b" disabled="disabled" 
-                    data-role="slider" onchange="RobotPower(this);">
+                    <select name="toggleswitch11" id="toggleswitch11" data-theme="b" 
+                    data-role="slider" onchange="MotorPower(this);">
                         <option value="off">
                             Off
                         </option>
@@ -204,10 +204,10 @@
             <div class="ui-block-b">
                 <div data-role="fieldcontain">
                     <label for="toggleswitch12">
-                        Camera Power
+                        Servo IR-Cam Power
                     </label>
-                    <select name="toggleswitch12" id="toggleswitch12" data-theme="b" disabled="disabled" 
-                    data-role="slider" onchange="CameraPower(this);">
+                    <select name="toggleswitch12" id="toggleswitch12" data-theme="b"  
+                    data-role="slider" onchange="ServoPower(this);">
                         <option value="off">
                             Off
                         </option>
