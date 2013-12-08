@@ -1,7 +1,3 @@
-// Creates a websocket with socket.io
-// Make sure to install socket.io: terminal, goto /var/lib/cloud9 and enter: npm install socket.io
-// Installing this takes a few minutes; wait until the installation is complete
-
 var app = require('http').createServer(handler),
     io = require('socket.io').listen(app),
     fs = require('fs'),
@@ -9,15 +5,17 @@ var app = require('http').createServer(handler),
     gpio = require('gpio'),
     five = require('johnny-five');
 
-var gpio22, gpio23;
+var gpio22, gpio23;   ///relay power for motor board and servo board
 gpio22 = gpio.export(22, {
    ready: function() {
       gpio22.set();
+      gpio22.reset();
    }
 });
 gpio23 = gpio.export(23, {
    ready: function() {
       gpio23.set();
+      gpio23.reset();
    }
 });
 
@@ -93,12 +91,12 @@ board.on("ready", function() {
        if (data == 'on') {
           board.pinMode(EA, five.Pin.PWM);
           board.pinMode(EB, five.Pin.PWM);
-          board.digitalWrite(IN1, 1 ); //Establishes backward direction of Channel A
+          board.digitalWrite(IN1, 1 );
           board.digitalWrite(IN2, 0 );  
-          board.analogWrite(EA, throttle);   //Spins the motor on Channel A at half speed
-          board.digitalWrite(IN4, 1 ); //Establishes backward direction of Channel A
+          board.analogWrite(EA, throttle);
+          board.digitalWrite(IN4, 1 );
           board.digitalWrite(IN3, 0 );  
-          board.analogWrite(EB, throttle);   //Spins the motor on Channel A at half speed
+          board.analogWrite(EB, throttle);
        }
      });
      // Stop mode
@@ -120,12 +118,12 @@ board.on("ready", function() {
        if (data == 'on') {
           board.pinMode(EA, five.Pin.PWM);
           board.pinMode(EB, five.Pin.PWM);
-          board.digitalWrite(IN1, 0 ); //Establishes backward direction of Channel A
+          board.digitalWrite(IN1, 0 );
           board.digitalWrite(IN2, 1 );  
-          board.analogWrite(EA, throttle);   //Spins the motor on Channel A at half speed
-          board.digitalWrite(IN4, 0 ); //Establishes backward direction of Channel A
+          board.analogWrite(EA, throttle);
+          board.digitalWrite(IN4, 0 );
           board.digitalWrite(IN3, 1 );  
-          board.analogWrite(EB, throttle);   //Spins the motor on Channel A at half speed
+          board.analogWrite(EB, throttle);
        }
      });
      // Super Speed mode
@@ -195,6 +193,11 @@ board.on("ready", function() {
           //serialPort.write("I " + '0' + '\n');
        }
      });
+       socket.on('disconnect', function () {
+       console.log('Client disconnected! OMG!!! Stop the motors!!!!');
+       // OMG Stop the motors
+       gpio22.set();
+     });
    });
 });
 // Get server IP address on LAN
@@ -210,4 +213,3 @@ function getIPAddress() {
   }
   return '0.0.0.0';
 }
- 
