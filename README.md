@@ -1,4 +1,4 @@
-1 arduinos, 1 pi, 1 1/8th scale rock crawler
+1 arduino, 1 pi, 1 1/8th scale rock crawler
 
 Node.js
 Socket.io
