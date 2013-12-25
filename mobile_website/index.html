@@ -62,11 +62,11 @@
             socket.emit('Light', sel.value);
         }
     }
-    function MotorPower(sel){
+    function CameraPower(sel){
         if (sel.value == "on") {
-            socket.emit('MotorPower', sel.value);
+            socket.emit('CameraPower', sel.value);
         } else if (sel.value == "off") {
-            socket.emit('MotorPower', sel.value);
+            socket.emit('CameraPower', sel.value);
         }
     }
     function ServoPower(sel){
@@ -93,14 +93,14 @@
             <label for="Throttle">
                 Throttle
             </label>
-            <input id="Throttle" type="range" name="slider" value="0" min="0" max="255" 
+            <input id="Throttle" type="range" name="slider" value="0" min="0" max="25" 
             data-highlight="true" onChange="throttle(value);">
         </div>
         <div data-role="fieldcontain">
             <label for="LeftRight">
                 Left / Right
             </label>
-            <input id="LeftRight" type="range" name="slider" value="50" min="0" max="100"
+            <input id="LeftRight" type="range" name="slider" value="55" min="35" max="75"
             data-highlight="false" onChange="LeftRight(value);">
         </div>
         <div data-role="fieldcontain">
@@ -188,10 +188,10 @@
             <div class="ui-block-a">
                 <div data-role="fieldcontain">
                     <label for="toggleswitch11">
-                        Motor Power
+                        Camera Power
                     </label>
                     <select name="toggleswitch11" id="toggleswitch11" data-theme="b" 
-                    data-role="slider" onchange="MotorPower(this);">
+                    data-role="slider" onchange="CameraPower(this);">
                         <option value="off">
                             Off
                         </option>
@@ -204,7 +204,7 @@
             <div class="ui-block-b">
                 <div data-role="fieldcontain">
                     <label for="toggleswitch12">
-                        Servo IR-Cam Power
+                        Steering Servo Power
                     </label>
                     <select name="toggleswitch12" id="toggleswitch12" data-theme="b"  
                     data-role="slider" onchange="ServoPower(this);">
