@@ -1,10 +1,10 @@
-2 arduinos, 1 pi
+1 arduinos, 1 pi, 1 1/8th scale rock crawler
 
 Node.js
 Socket.io
-Johnny Five
 I2C
 
-Raspberry Pi running node.js. 
-It connects to 1 arduino with Johnny Five to drive to motors and
-the second arduino using I2C to control the steering servo.
+Raspberry Pi running node.js connects to ESC using Servoblaster to drive to motors and
+the arduino using I2C to control the steering servo. I use a dual relay board to power 
+the external wifi web cam, and the steering system (arduino).
+
