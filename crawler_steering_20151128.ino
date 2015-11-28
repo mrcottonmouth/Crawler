@@ -21,7 +21,7 @@ void setup() {
     digitalWrite(lights,HIGH);
     servo1.attach( servoPin );
     servoEaser.begin( servo1, servoFrameMillis ); 
-    servoEaser.easeTo( 80, 2000);
+    servoEaser.easeTo( 90, 2000);
     digitalWrite(arduinoLED,LOW);
     Serial.begin(9600);         // start serial for output
     // initialize i2c as slave
@@ -53,7 +53,7 @@ void receiveData(int byteCount){
           digitalWrite(lights,LOW);
         }
         else if ((number >= 0) && (number <= 180))  {
-          pos = map(number,0, 100, 180, 0);
+          pos = map(number,0, 100, 0, 180);
           pos = constrain(pos, 0, 180);
           servoEaser.easeTo( pos, 500 );
           digitalWrite(arduinoLED,HIGH);
